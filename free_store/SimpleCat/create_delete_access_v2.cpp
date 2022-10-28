@@ -31,7 +31,7 @@ class SimpleCat{
 int main(){
     //Frodo is created on the stack
     SimpleCat Frodo; 
-    //Biscuit and Banana are created on the heap  
+    //Biscuit and Banana are created on the heap/free store
     SimpleCat *Biscuit = new SimpleCat;
     SimpleCat *Banana = new SimpleCat(6, "Banana");
     //get age and names
