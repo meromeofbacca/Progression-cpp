@@ -18,9 +18,3 @@ int main(){
         ++sequence_count;
     }    
 }
-/**
- * @brief 
- * * this is a simple comment
- * ! hello
- * 
- */
