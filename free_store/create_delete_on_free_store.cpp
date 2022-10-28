@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+//stripped down class
 class SimpleCat{
     public:
         SimpleCat();
@@ -13,6 +14,7 @@ class SimpleCat{
         std::string catName;
 };
 
+//class definitions
 SimpleCat::SimpleCat(){
     cout << "Default constructor called. \n";
     catAge = 1;
@@ -34,7 +36,9 @@ void SimpleCat::getName(){
 }
 
 int main(){
-    SimpleCat Frodo;
+    //Frodo is created on the stack
+    SimpleCat Frodo; 
+    //Biscuit and Banana are created on the heap  
     SimpleCat *Biscuit = new SimpleCat;
     SimpleCat *Banana = new SimpleCat(6, "Banana");
     //get age and names
@@ -53,4 +57,5 @@ int main(){
     Biscuit = NULL;
     delete Banana;
     Banana = NULL;
+    //When function ends, Frodo goes out of scope and destructor is called
 }
