@@ -1,0 +1,57 @@
+#define = lets us specify preprocessor macros
+#define isn't the best option bc not object oriented and not type safe.
+#define is good bc macros are always inline -> fast
+#defined constant don't take up RAM bc part of code like literal constants
+
+PreProcessor - 
+Before compiler
+Has own language, where instructions begin with # symbol
+Job is to prep code for compiler
+Replaces all #includes with code from headers, swaps #defined symbols
+
+#define is instruction to preprocessor to swap symbol for string in code
+Compiler is unaware of swapping, preprocessor does it 
+
+!MAIN USE = as guards in headers
+Guards in headers = PreProcessor sees #ifndef and checks if symbol is 
+				previously defined and will then include/skip code
+Ex:
+#ifndef SOMEHEADER_H
+#define SOMEHEADER_H
+
+...HEADER CODE...
+
+#endif 
+
+SYNTAX
+#define [symbolName] [replacementString] //often in CAPS
+ 
+To undefine:
+#define MIL(x,y) ((x)*(x)) //macro
+#undef MUL
+
+#define a Constant
+Ex:
+#define MY_SYMBOL 10
+int j = MY_SYMBOL*2; //Compiler sees "int j = 10*2;"
+
+NOT REPLACED IN STRINGS
+Ex"
+#define NAME bob
+cout << "A NAME"; //prints "A NAME"
+
+#define Expression
+SUR
+ex:
+#define TEN (3+7)
+int j = 5*TEN; // equals to 5*(3+7), USELESS 
+
+MACROS
+Follow name of symbol with parentheses and parameter list
+This creates a preprocessor macro, and params don't have data type
+^Not type safe00
+Macros have similar functionality to regular functions
+
+Ex:
+#define Multiply(x,y) (x*y)
+int q = Multiply(5,3); //replaced by int q = 5*3
