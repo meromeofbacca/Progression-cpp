@@ -1,2 +1,2 @@
 # Progression-cpp
-Progression of my cpp learning!
+Progression of my C++ learning!
