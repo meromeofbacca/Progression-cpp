@@ -3,10 +3,14 @@ using namespace std;
 
 int main(){
     int prime_count = 0;
-    for(int i = 2; i <= 1000; ++i){
+    int ceiling;
+    cout << "Enter the ceiling: ";
+    cin >> ceiling;
+    
+    for(int i = 2; i <= ceiling; ++i){
         bool isPrime = true;
         
-        for(int j = 2; j < i/2 + 1; ++j){
+        for(int j = 2; j < (i + 1)/2 ; ++j){
             if(i%j == 0){
                 isPrime = false;
                 break;
@@ -14,9 +18,9 @@ int main(){
         }
         
         if(isPrime){
-            cout << i << endl;
+            cout << endl << i;
             prime_count++;
         }
     }
-    cout << "Prime count: " << prime_count << endl;
+    cout << endl << "Prime count: " << prime_count << endl;
 }
