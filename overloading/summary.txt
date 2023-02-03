@@ -1,0 +1,20 @@
+Today you learned how to overload member functions of your classes. 
+You also learned how to supply default values to functions, and how to decide when to use default values and when to overload.
+
+Overloading class constructors allows you to create flexible classes that can be created from other objects. 
+Initialization of objects happens at the initialization stage of construction, 
+and is more efficient than assigning values in the body of the constructor.
+
+The copy constructor and the assignment operator are supplied by the compiler if you don't create your own, 
+but they do a member-wise copy of the class. In classes in which member data includes pointers to the free store, 
+these methods must be overridden so that you allocate memory for the target object.
+
+Almost all C++ operators can be overloaded, though you want to be cautious not to create operators whose use is counter-intuitive. 
+You cannot change the arity of operators, nor can you invent new operators.
+
+The this pointer refers to the current object and is an invisible parameter to all member functions. 
+The dereferenced this pointer is often returned by overloaded operators.
+
+Conversion operators allow you to create classes that can be used in expressions that expect a different type of object. 
+They are exceptions to the rule that all functions return an explicit value; like constructors and destructors, 
+they have no return type.
