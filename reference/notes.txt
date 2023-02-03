@@ -1,0 +1,33 @@
+References are like ptrs but 
+-you can't reassign a reference
+-reference can't be null
+so if you have to point to an object and then point to another, use pointers
+or if the object is to be null at some point, use pointers
+
+New can sometimes rturn nullptr so check for that if you are to use a reference to a pointer:
+// int *pInt = new int;
+// if (pInt != NULL) { int &rInt = *pInt; }
+
+***
+If you are writing a function that needs to create memory and then pass it back to the calling function, consider changing your interface.
+Have the calling function allocate the memory and then pass it into your function by reference. 
+This moves all memory management out of your program and back to the function that is prepared to delete it.
+***
+
+Prefer references > pointers!
+-cleaner
+-easy to use
+-hide information
+
+You can pass by reference in so many ways:
+1. Initializing references to objects/variables, and passing them into functions that accept references as params, inside you use the params as
+    normal variables
+2. Declaring pointers and passing them into functions that accept pointers as params, inside you use the value of the params with a 
+    dereference operator
+3. Declaring variables and passing their addresses into functions that accept pointerss as params, inside you the ptr params with dereference
+    operators
+-If you know the the object will never be null when you need to pass it, use reference/const reference instead of ptr/const ptrs
+
+Using pass by reference to return multiple values:
+-Just like in the file you can pass by reference the values you want changed, change them, and then just return some bool or check for 
+    success
