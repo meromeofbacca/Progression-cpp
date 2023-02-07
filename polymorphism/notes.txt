@@ -1,0 +1,25 @@
+MULTIPLE INHERITANCE:
+DO use multiple inheritance when a new class needs functions and features from more than one base class. 
+DO use virtual inheritance when the most derived classes must have only one instance of the shared base class.
+DO initialize the shared base class from the most derived class when using virtual base classes. 
+DON'T use multiple inheritance when single inheritance will do.
+
+CAPABILITY CLASSES:
+Capability classes are mixed into a derived class like any other class might be, by declaring the derived class to inherit publicly from them. 
+The only difference between a capability class and any other class is that the capability class has little or no data. 
+For example, if Horse derives from Animal and from Displayable, Displayable would have no data. 
+Animal would be just as it always was, so all the data in Horse would derive from Animal, 
+but the functions in Horse would derive from both.
+
+ADT:
+ADT is a concept class.
+C++ supports the creation of abstract data types with pure virtual functions. 
+A virtual function is made pure by initializing it with zero, as in
+virtual void Draw() = 0; //can still have implementation in base class as shown
+Any class with one or more pure virtual functions is an ADT, and it is illegal to instantiate an object of a class that is an ADT.
+At times, you will derive ADTs from other ADTs. It may be that you will want to make some of the derived pure virtual functions non-pure, 
+and leave others pure.  //by overriding the pure to make it non-pure
+
+
+
+

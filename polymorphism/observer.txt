@@ -1,0 +1,34 @@
+The Observer Pattern
+
+A very hot trend in C++ is the creation and dissemination of design patterns. 
+These are well- documented solutions to common problems encountered by C++ programmers. 
+As an example, the observer pattern solves a common problem in inheritance.
+
+Imagine you develop a timer class which knows how to count elapsed seconds. 
+Such a class might have a class member itsSeconds which is an integer, 
+and it would have methods to set, get, and increment itsSeconds.
+
+Now let's further assume that your program wants to be informed every time the timer's 
+itsSeconds member is incremented. 
+One obvious solution would be to put a notification method into the timer. 
+However, notification is not an intrinsic part of timing, and the complex code for 
+registering those classes which need to be informed when the clock increments doesn't really belong in your timer class.
+
+More importantly, once you work out the logic of registering those who are interested in these changes, 
+and then notifying them, you'd like to abstract this out into a class of its own and 
+be able to reuse it with other classes which might be "observed" in this way.
+
+Therefore, a better solution is to create an observer class. 
+Make this observer an Abstract Data Type with a pure virtual function Update().
+
+Now create a second abstract data type, called Subject. 
+Subject keeps an array of Observer objects and also provides two methods: register() 
+(which adds observers to its list) and Notify(), which is called when there is something to report.
+
+Those classes which wish to be notified of your timer's changes inherit from Observer. 
+The timer itself inherits from Subject. The Observer class registers itself with the Subject class. 
+The Subject class calls Notify when it changes (in this case when the timer updates).
+
+Finally, we note that not every client of timer wants to be observable, 
+and thus we create a new class called ObservedTimer, which inherits both from timer and from Subject. 
+This gives the ObservedTimer the timer characteristics and the ability to be observed.
