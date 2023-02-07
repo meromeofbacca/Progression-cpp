@@ -168,6 +168,7 @@ int main(){
     }
     for(i = 0; i < 5; i++){
         theArray[i]->Speak();
+        theArray[i]->Mammal::Speak();
     }
 }
 
