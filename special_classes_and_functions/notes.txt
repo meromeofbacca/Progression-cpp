@@ -1,0 +1,6 @@
+Static:
+Static member functions do not have a this pointer. 
+Therefore, they cannot be declared const. 
+Also, because member data variables are accessed in member functions using the this pointer, 
+static member functions cannot access any non-static member variables!
+
