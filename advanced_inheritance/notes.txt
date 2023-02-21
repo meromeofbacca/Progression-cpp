@@ -154,7 +154,4 @@ Remember that public inheritance expresses is-a, containment expresses has-a,
 and private inheritance expresses implemented in terms of. 
 The relationship delegates to can be expressed using either containment or private inheritance, 
 though containment is more common.
-
-
-
-
+Contained classes hide their details; private inheritance exposes the implementation details.
