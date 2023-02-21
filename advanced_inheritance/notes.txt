@@ -1,0 +1,160 @@
+//  Containment
+As you have seen in previous examples, it is possible for 
+the member data of a class to include objects of another class. 
+C++ programmers say that the outer class contains the inner class. 
+Thus, an Employee class might contain string objects (for the name of the employee), 
+as well as integers (for the employee's salary and so forth).
+
+//  Implementation in Terms of Inheritance/Containment Versus Delegation
+1.  Is there anything in the base class that should not be in the derived? 
+    For example, does the LinkedList base class have functions that are inappropriate for the PartsCatalog
+    class? If so, you probably don't want public inheritance.
+
+2.  Might the class you are creating have more than one of the base? 
+    For example, might a PartsCatalog need two LinkedLists in each object? 
+    If it might, you almost certainly want to use containment.
+
+3.  Do you need to inherit from the base class so that you can take 
+    advantage of virtual functions or access protected members? 
+    If so, you must use inheritance, public or private.
+
+Based on the answers to these questions, you must chose between
+public inheritance (the is-a relationship) and either 
+private inheritance or containment.
+
+//  Filtering Access to Contained Members
+Note that the String class provides the operator+. 
+The designer of the Employee class has blocked access to the operator+ 
+being called on Employee objects by declaring that all the string accessors, 
+such as GetFirstName(), return a constant reference. Because operator+ is not (and can't be) 
+a const function (it changes the object it is called on), attempting to write the following 
+will cause a compile-time error:
+
+String buffer = Edie.GetFirstName() + Edie.GetLastName();
+GetFirstName() returns a constant String, and you can't call operator+ on a constant object.
+
+To fix this, overload GetFirstName() to be non-const:
+
+const String & GetFirstName() const { return itsFirstName; }
+String & GetFirstName()  { return itsFirstName; }
+Note that the return value is no longer const and that the member function 
+itself is no longer const. 
+Changing the return value is not sufficient to overload the function name; 
+you must change the constancy of the function itself.
+
+New Terms:
+Contained --An object declared as a member of another class contained by that class.
+
+Delegation --Using the attributes of a contained class to accomplish functions not otherwise available to the containing class.
+
+Implemented in terms of --Building one class on the capabilities of another without using public inheritance.
+
+
+// DELEGATION.CPP
+PartsCatalog delegates list management to PartsList. Aka PartsCatalog is implemented in terms of PartsList.
+Interface between client and PartList is interfaced through PartsCatalog.
+Behavior of PartsList is dramatically changed. PartsList can have duplicate items, 
+so PartsCatalog::Insert() doesn't allow duplicates.
+
+**
+The mechanics of the actual insertion and the maintenance of the linked list, 
+as well as searching and retrieving from the linked list, 
+are maintained in the contained PartsList member of PartsCatalog. 
+There is no reason for PartsCatalog to reproduce this code; 
+it can take full advantage of the well-defined interface.
+
+This is the essence of reusability within C++: PartsCatalog can reuse the PartsList code, 
+and the designer of PartsCatalog is free to ignore the implementation details of PartsList. 
+The interface to PartsList (that is, the class declaration) provides all the information 
+needed by the designer of the PartsCatalog class.
+
+//Private inheritance
+If PartsCatalog needed access to the protected members of LinkedList (in this case there are none), 
+or needed to override any of the LinkedList methods, 
+then PartsCatalog would be forced to inherit from PartsList.
+
+Since you don't want to expose the entire functionality of PartsList to clients of PartsCatalog, 
+you need to use private inheritance.
+
+All the base member functions and variables are made private.
+
+***
+Private inheritance does not involve inheriting interface, just implementation.
+PartsCatalog isn't a PartsList like it would be with public inheritance.
+It's implemented in terms of PartsList like containment. 
+Private inheritance is just a convenience.
+
+Summary:
+DO inherit publicly when the derived object is a kind of the base class. 
+DO use containment when you want to delegate functionality to another class, 
+but you don't need access to its protected members. 
+DO use private inheritance when you need to implement one class in terms of another, 
+and you need access to the base class's protected members. 
+DON'T use private inheritance when you need to use more than one of the base class. 
+You must use containment. For example, if PartsCatalog needed two PartsLists, 
+you could not have used private inheritance. 
+DON'T use public inheritance when members of the base class should not be available to clients of the derived class.
+
+// FRIEND CLASSES
+Sometimes you will create classes together, as a set. 
+For example, PartNode and PartsList were tightly coupled, 
+and it would have been convenient if PartsList could have read PartNode's Part pointer, itsPart, directly.
+
+You wouldn't want to make itsPart public, or even protected, 
+because this is an implementation detail of PartNode and you want to keep it private. 
+You do want to expose it to PartsList, however.
+
+If you want to expose your private member data or functions to another class, 
+you must declare that class to be a friend. 
+This extends the interface of your class to include the friend class.
+Once PartsNode declares PartsList to be a friend, 
+all of PartsNode's member data and functions are public as far as PartsList is concerned.
+
+Friendship isn't transferrable, commutative or inherited.
+Declarations of friend classes should be used with extreme caution. 
+If two classes are inextricably entwined, and one must frequently access data in the other, 
+there may be good reason to use this declaration. 
+But use it sparingly; it is often just as easy to use the public accessor methods, 
+and doing so allows you to change one class without having to recompile the other.
+
+// FRIEND FUNCTIONS
+Declare a function to be a friend by using the keyword friend 
+and then the full specification of the function. 
+Declaring a function to be a friend does not give the friend function access to your this pointer, 
+but it does provide full access to all private and protected member data and functions. 
+Example:
+
+class PartNode
+{
+    // make another class's member function a friend
+    friend void PartsList::Insert(Part *);  
+    // make a global function a friend };
+    friend int SomeFunction();   
+}           
+
+// OVERLOADING extraction operator (<<) for String.hpp
+
+ostream& operator<<( ostream& theStream,String& theString)
+{
+    theStream << theString.GetString();
+    return theStream;
+}
+Note that this is not a member function of String. 
+It returns a reference to an ostream so that you can concatenate calls to operator<<, such as this:
+cout << "myAge: " << itsAge << " years.";
+
+Overall Summary:
+Containment is restricted in that the new class does not have 
+access to the protected members of the contained class, 
+and it cannot override the member functions of the contained object. 
+Containment is simpler to use than private inheritance, 
+and should be used when possible.
+
+Remember that public inheritance expresses is-a, containment expresses has-a, 
+and private inheritance expresses implemented in terms of. 
+The relationship delegates to can be expressed using either containment or private inheritance, 
+though containment is more common.
+
+
+
+
