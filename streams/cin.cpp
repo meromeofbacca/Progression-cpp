@@ -4,6 +4,13 @@ using namespace std;
 
 int main()
 {
+   // Listing 16.4 - Using get() with no parameters
+   // char ch;
+   // while ( (ch = cin.get()) != EOF)
+   // {
+   //    cout << "ch: " << ch << endl;
+   // }
+   // cout << "\nDone!\n";
    // Listing 16.5 - Using get() with parameters
    // char a, b, c;
    // cout << "Enter three letters: ";
