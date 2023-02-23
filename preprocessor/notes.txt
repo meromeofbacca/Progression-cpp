@@ -1,0 +1,160 @@
+// DEFINE
+
+The #define command defines a string substitution. If you write
+
+#define BIG 512
+you have instructed the precompiler to substitute the string 512 wherever it sees the string BIG. 
+
+#define BIG 512
+int myArray[BIG];
+
+int myArray[512];
+
+Using define for tests:
+You can define 
+
+#define BIG
+
+and then test if BIG has been defined and act accordingly
+
+To test whether a string has been defined, use #ifdef and #ifndef,
+both must be followed by #endif
+
+#ifdef DEBUG
+cout << "Debug defined";
+#endif
+
+When the precompiler reads \ #ifdef, it checks a table 
+it has built to see if you've defined DEBUG. 
+If you have, the #ifdef evaluates to TRUE, 
+and everything to the next #else or #endif is written into 
+the intermediate file for compiling. 
+
+It is common to put in special debugging code surrounded by #ifdef 
+DEBUG and #endif. This allows all the debugging code to be easily 
+removed from the source code when you compile the final version; 
+just don't define the term DEBUG.
+
+Conditional Compilation:
+By combining #define or command-line definitions with #ifdef, #else, and #ifndef, 
+you can write one program that compiles different code, depending on what is already #defined. 
+This can be used to create one set of source code to compile on two different platforms, 
+such as DOS and Windows.
+
+DO use conditional compilation when you need to create more than one
+version of your code at the same time. DON'T let your conditions get 
+too complex to manage. DO use #undef as often as possible to avoid 
+leaving stray definitions in your code. DO use inclusion guards!
+
+// Macros
+
+Macros can be created using #define that takes an argument like a function
+Parameter parens have to follow macro name with no spaces
+
+#define TWICE(x) ( (x) * 2)
+
+TWICE(4);
+
+//resolves to 8
+
+2 popular macros:
+#define MAX(x,y) ( (x) > (y) ? (x) : (y) )
+#define MIN(x,y) ( (x) < (y) ? (x) : (y) )
+
+4 Problems of Macros:
+1) Must be defined in one line, so more complicated macros are confusing
+2) Macros are expanded inline. So if a macro is used 12 times, it appears 12 times.
+   Unlike functions where they only appear once. Quicker than functions though bc
+   the overhead of function call is avoided.
+3) Because they are expanded inline, macro doesn't appear in intermediate source
+   code used by compiler, so cannot use debugger.
+4) BIGGEST: Macros are not type safe. Undermines strong typing of C++
+
+Inline functions:
+Possible to declare inline function rather than macro
+Inline functions are like macros where they are expanded 
+for each call to avoid function call overhead.
+
+Because the function call is never made, 
+there is no overhead of putting the return address and the parameters on the stack.
+
+// String Manipulation
+
+Stringizing
+The stringizing operator (#) substitutes a quoted string for whatever follows 
+the stringizing operator. The concatenation operator bonds two strings together into one.
+
+The stringizing operator puts quotes around any characters following the operator, 
+up to the next white space.
+
+#define WRITESTRING(x) cout << #x
+and then call
+
+WRITESTRING(This is a string);
+the precompiler will turn it into
+
+cout << "This is a string";
+
+Concatenation
+Assume for a moment that you have five functions, 
+named fOnePrint, fTwoPrint, fThreePrint, fFourPrint, and fFivePrint. 
+You can then declare:
+
+#define fPRINT(x) f ## x ## Print
+
+and then use it with fPRINT(Two) to generate fTwoPrint 
+and with fPRINT(Three) to generate fThreePrint.
+
+// Predefined Macros
+Many compilers predefine a number of useful macros, 
+including __DATE__, __TIME__, __LINE__, and __FILE__.
+
+For example, if you call __DATE__, the current date is substituted.
+But the substitution is made when the source is precompiled so you 
+will get the date from when the file compiled.
+
+__LINE__ and __FILE__ are replaced with the source code line number and
+file name respectively.
+
+All these are useful for debugging.
+
+// assert()
+
+Compilers offer assert() macro which returns TRUE if param evaluates as TRUE
+and takes action if FALSE.
+Many compilers will abort the program on assert() fail, some will throw 
+exception.
+
+One powerful feature of the assert() macro is that the preprocessor will collapse
+into no code at all if DEBUG is not defined. 
+Helps in development and when the final product ships there is no performance penalty
+nor increase in size of exe file of program.
+
+You can write your own assert()
+
+assert() vs Exceptions:
+assert isn't used for runtime errors like bad data, out of memory conditions, 
+unable to open files, etc.
+assert is to catch programming errors only.
+
+// Class invariants
+Most classes have conditions that must always be true whenever you are finished with a class member function.
+Ex: Circle must never have radius 0 or Animal age must have age > 0 and age < 100.
+
+Can be very helpful to declare an Invariants() function that returns TRUE
+iff each condition returns true.
+You can then ASSERT(Invariants()) at the start and end of every method
+for debugging.
+
+With big complex programs, can use different levels of debugging instead
+of just debug on or off.
+
+DO use CAPITALS for your macro names. This is a pervasive convention, 
+and other programmers will be confused if you don't. 
+DON'T allow your macros to have side effects. 
+Don't increment variables or assign values from within a macro. 
+DO surround all arguments with parentheses in macro functions.
+
+Macro functions, and the preprocessor in general, are less important in C++ 
+than they were in C. C++ provides a number of language features, such as const 
+variables and templates, that offer superior alternatives to use of the preprocessor.
