@@ -1,0 +1,117 @@
+// STREAMS
+
+Data is written to stream which stores it in a buffer. 
+When buffer is full it writes to disk/screen, instead of
+writing every time data is sent to stream.
+
+1) The streambuf class manages the buffer, and its member functions provide the capability to fill, 
+   empty, flush, and otherwise manipulate the buffer.
+
+2) The ios class is the base class to the input and output stream classes. 
+   The ios class has a streambuf object as a member variable.
+
+3) The istream and ostream classes derive from the ios class and 
+   specialize input and output stream behavior, respectively.
+
+4) The iostream class is derived from both the istream and the ostream 
+   classes and provides input and output methods for writing to the screen.
+
+5) The fstream classes provide input and output from files.
+
+Standard IO Objects:
+cin
+cout
+cerr - handles unbuffered output to the standard error device, the screen. 
+       Because this is unbuffered, everything sent to cerr is written to the 
+       standard error device immediately, without waiting for the buffer to fill 
+       or for a flush command to be received.
+
+clog - handles buffered error messages that are output to the standard error device, 
+       the screen. It is common for this to be "redirected" to a log file, 
+       as described in the following section.
+
+// CIN
+cin >> write whatever data cin has in it's buffer into a variable
+       >> is overloaded by cin w/ many params
+cin thinks white space is a separator and leaves \n in buffer
+
+// cin.get()
+cin >> gets a single char from a character reference input 
+cin.get() is used to get a single char.
+cin.get() no param returns the value of the character found,
+returns EOF if end of file.
+Not able to concatenate.
+cin.get() >>myVarOne >> myVarTwo; //   illegal
+
+Use like:
+char a;
+cin.get(a);
+
+cin.get() 3 params = (pointer to char array, max num characters to read + 1, termination character = "\n")
+If termination character reached before max chars read, writes a null and the termination character
+is left in the buffer.
+cin.getline() is like get(), except it reads the termination character and throws it out of the input buffer.
+
+cin.ignore(numChars, termChar) - throws away max number of characters until termination char is reached. 
+                                 termination char is also thrown away.
+cin.putback(char) puts char back into stream buffer, next to be read
+
+
+// cout
+
+.put() returns an ostream reference 
+cout is an ostream object so you can concatenate
+
+.write() works just like insertion operation <<
+but accepts max characters to write
+
+.width() changes width of next output field,
+but reverts to default after
+
+.fill() works with width() does nothing otherwise
+
+// Set flags
+iostream objects keep track of their states using flags
+you can change their state using setf() and 
+passing in a predefined constant
+
+// printf()
+
+%s	strings
+%d	integers
+%l	long integer
+%ld long integers
+%f	float
+
+accepts formatted string as first param and
+values as remaining params
+
+//ofstream
+
+The objects used to read from or write to files are called ofstream objects. 
+These are derived from the iostream objects.
+Must include fstream
+
+ofstream = writing
+ifstream = reading
+
+// Changing default behavior of ofstream on Open
+
+Add these as second param in ofstream constructor
+ios::app--Appends to the end of existing files rather than truncating them.
+ios::ate--Places you at the end of the file, but you can write data anywhere in the file.
+ios::trun--The default. Causes existing files to be truncated.
+ios::nocreat--If the file does not exist, the open fails.
+ios::noreplac--If the file does already exist, the open fails.
+
+DO test each open of a file to ensure that it opened successfully. 
+DO reuse existing ifstream and ofstream objects. 
+DO close all fstream objects when you are done using them. 
+DON'T try to close or reassign cin or cout.
+
+
+
+
+
+
+
